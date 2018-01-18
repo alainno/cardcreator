@@ -7,6 +7,7 @@ package pe.gob.reniec.pki.cardcreator;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
@@ -78,7 +79,8 @@ public class Creator extends HttpServlet {
 			//ClassLoader classLoader = getClass().getClassLoader();
 			//File file = new File(classLoader.getResource("file/test.xml").getFile());
 						
-			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, classLoader.getResourceAsStream("arialn.ttf")));
+			//ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, classLoader.getResourceAsStream("arialn.ttf")));
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, classLoader.getResourceAsStream("arial.ttf")));
 			//ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(getClass().getClassLoader().getResource("../resources/arialn.ttf").getFile())));
 		}catch(Exception ex){
 			
@@ -108,19 +110,26 @@ public class Creator extends HttpServlet {
 		Graphics g = image.getGraphics();
 		//g.setFont(g.getFont().deriveFont(30f));
 		
-		g.setFont(new Font("Arial Narrow", Font.BOLD, 28));
+//		g.setFont(new Font("Arial Narrow", Font.BOLD, 28));
+		g.setFont(new Font("Arial", Font.PLAIN, 28));
 		g.drawString(nombres, 44, 560);
 		g.drawString(organizacion, 44, 600);
 		
-		
+		FontMetrics fontMetrics = g.getFontMetrics();
+                int stringWidth = fontMetrics.stringWidth(printcode);
+                //System.out.println("string width = " + stringWidth);
+                
 		Graphics2D g2 = (Graphics2D) g;
-		Font font = new Font("Lucida Sans", Font.PLAIN, 20);
+//		Font font = new Font("Lucida Sans", Font.PLAIN, 20);
+		Font font = new Font("Arial", Font.PLAIN, 28);
 		AffineTransform affineTransform = new AffineTransform();
 		affineTransform.rotate(Math.toRadians(90), 0, 0);
 		Font rotatedFont = font.deriveFont(affineTransform);
 		g2.setFont(rotatedFont);
 		g2.setColor(Color.BLACK);
-		g2.drawString(printcode,985,400);
+                
+                
+		g2.drawString(printcode,985,600-stringWidth);
 		g2.dispose();
 		
 		
